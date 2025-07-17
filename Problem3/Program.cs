@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-class Program3
+﻿class Program3
 {
+    /// <summary>
+    /// ランダムな数値を表示するメソッド
+    /// </summary>
     static void Main()
     {
         /* メソッドでランダムな数値を生成
@@ -13,25 +13,25 @@ class Program3
         ShowNumbers(result);
     }
 
-    // ランダムな重複しない数値を生成するメソッド
+    /// <summary>
+    /// ランダムな重複しない数値を生成するメソッド
+    /// </summary>
+    /// <param name="count">6回分</param>
+    /// <param name="min">１から</param>
+    /// <param name="max">44まで</param>
+    /// <returns></returns>
     static HashSet<int> RandomNumbers(int count, int min, int max)
     {//ランダムな数値を生成
         Random ran = new Random();
-        //重複しない数字
-        HashSet<int> result = new HashSet<int>();
-
-        while (result.Count < count)
-        {
-            // 1～43
-            int randomNumber = ran.Next(min, max);
-            // HashSetで重複防止
-            result.Add(randomNumber); 
-        }
-
-        return result;
+        return Enumerable.Range(min, max - min)  // min から max-1 までの連番
+                           .OrderBy(x => ran.Next()) // ランダムに並び替え
+                           .Take(count)               // 上から指定数だけ取る
+                           .ToHashSet();                 // リストに変換
     }
-
-    // 数値を表示するメソッド
+    /// <summary>
+    /// 数値を表示するメソッド
+    /// </summary>
+    /// <param name="numbers">ランダムな数値</param>
     static void ShowNumbers(HashSet<int> numbers)
     {
         foreach (int num in numbers)
